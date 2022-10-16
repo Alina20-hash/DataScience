@@ -1,0 +1,149 @@
+---
+title: "Happiness rank and scores by countries, 2021"
+author: "Semenko"
+
+output: html_document
+---
+
+```{r }
+library(readxl)
+data_happiness <- read_excel("C:/Users/annas/Downloads/happiness.xls")
+View(data_happiness)
+```
+
+## **Відношення здоров'я в залежності від коефіцієнту щастя в Країнах**
+```{r }
+plot(data_happiness$`Happiness Score`, data_happiness$`Health_Life_Expectancy`, col="green", xlab="Коефіцієнт щастя", ylab ="Коефіцієнт здоров'я", 
+     main = "Відношення коефіцієнту здоров'я в залежності від коефіцієнту щастя", pch = 18, cex = 2)
+```
+
+## **Економіка країн**
+```{r}
+hist(data_happiness$`Economy`, xlab="Економічний коефіцієнт",main = "Економіка в країнах  Європи", freq = FALSE,border = "blue", breaks = 30)
+lines(density(data_happiness$`Economy`), col = "red", lwd = 2)
+```
+
+## **Коефіцієнт вільності в країнах**
+```{r}
+boxplot(data_happiness$Freedom, xlab = "Коефіцієнт свободи в країнах Європи",border = "red", col="purple", horizontal = TRUE,
+        notch = TRUE)
+
+```
+
+## **Описові статистики**
+```{r}
+library(psych)
+describe(data_happiness)
+```
+
+
+## **Лінійні парні регресії**
+```{r}
+hap  <- lm(`Economy` ~ `Health_Life_Expectancy`, data=data_happiness)
+summary(hap)
+```
+
+
+```{r}
+h <- lm(Family ~ Freedom,data=data_happiness)
+summary(h)
+```
+
+```{r}
+ha <- lm(`Happiness Score` ~ `Health_Life_Expectancy`,data=data_happiness)
+summary(ha)
+```
+
+
+```{r}
+happ <- lm(Freedom ~`Trust_Government_Corruption`,data=data_happiness)
+summary(happ)
+```
+
+```{r}
+happy <- lm(Freedom ~`Health_Life_Expectancy`,data=data_happiness)
+summary(happy)
+```
+
+```{r}
+happin <- lm(Generosity ~`Happiness Score`,data=data_happiness)
+summary(happin)
+
+```
+
+
+## **Множинні регресії**
+
+```{r}
+m <- lm(Family~`Happiness Score`+`Health_Life_Expectancy`+Freedom,data=data_happiness)
+summary(m)
+```
+
+```{r}
+m <- lm(Family~`Happiness Score`-1,data=data_happiness)
+summary(m)
+```
+```{r}
+mod <- lm(`Happiness Score`~`Trust_Government_Corruption`+`Health_Life_Expectancy`+Freedom,data=data_happiness)
+summary(mod)
+```
+
+```{r}
+mod <- lm(`Happiness Score`~`Health_Life_Expectancy`+Freedom,data=data_happiness)
+summary(mod)
+```
+
+```{r}
+model <- lm(`Health_Life_Expectancy`~`Economy`+Freedom+Family,data=data_happiness)
+summary(model)
+```
+
+```{r}
+model <- lm(`Health_Life_Expectancy`~`Economy`,data=data_happiness)
+summary(model)
+```
+
+```{r}
+modal <- lm(Generosity~`Economy`+`Health_Life_Expectancy`+Family+Freedom+`Happiness Score`,data=data_happiness)
+summary(modal)
+```
+
+
+```{r}
+modal <- lm(Generosity~`Economy`+Freedom-1,data=data_happiness)
+summary(modal)
+```
+
+
+```{r}
+modal <- lm(Generosity~Freedom-1,data=data_happiness)
+summary(modal)
+```
+
+```{r}
+modul <- lm(`Economy`~ Freedom+Family+`Trust_Government_Corruption`+`Health_Life_Expectancy`,data=data_happiness)
+summary(modul)
+```
+
+```{r}
+modul <- lm(`Economy`~ Family+`Health_Life_Expectancy`-1,data=data_happiness)
+summary(modul)
+```
+
+### ***Підсумки:***
+#### *Ми проаналізували дані нашого датасету за допомогою різних графіків.*
+#### *Знайшли описові статистики датасету.*
+#### *Проаналізували парні лінійні регресійні моделі.*
+#### *Також проаналізували множинні лінійні регресійні моделі.*
+
+
+
+
+
+
+
+
+
+
+
+
